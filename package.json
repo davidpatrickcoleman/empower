@@ -36,7 +36,6 @@
     "react-native-element": "^1.2.1",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-email": "^1.1.0",
-    "react-native-fetch-blob": "^0.10.8",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-images-share": "^0.0.8",
     "react-native-mail": "^6.0.0",
@@ -56,6 +55,7 @@
     "react-native-webview": "10.7.0",
     "react-navigation": "^4.4.3",
     "react-papaparse": "^3.11.0",
+    "rn-fetch-blob": "^0.12.0",
     "rn-vertical-slider": "^2.0.2",
     "stream": "^0.0.2"
   },

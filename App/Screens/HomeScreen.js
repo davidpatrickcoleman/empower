@@ -41,6 +41,12 @@ class HomeScreen extends React.Component {
       tx.executeSql(
         "create table if not exists catheter1 (id integer primary key not null, catheterType text);"
       );
+      tx.executeSql(
+        "create table if not exists carerDetails (id integer primary key not null, name text, number text, email text);"
+      );
+      tx.executeSql(
+        "create table if not exists doctor1 (id integer primary key not null, name text, email text);"
+      );
     });
   }
   add = props => {
@@ -54,7 +60,6 @@ class HomeScreen extends React.Component {
         "insert into catheter1 (catheterType) values (?)",
         [props],
         (_, { rows }) => {
-          console.log("1");
         },
         (t, error) => {
           console.log(error);
@@ -152,7 +157,7 @@ class HomeScreen extends React.Component {
                 },
                 {
                   text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
+
                   style: "cancel"
                 }
               ]);
@@ -224,7 +229,6 @@ class HomeScreen extends React.Component {
                 },
                 {
                   text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
                   style: "cancel"
                 }
               ]);

@@ -26,7 +26,8 @@ class HelpVideos extends React.Component {
         [],
         (_, { rows }) => {
           console.log(JSON.stringify(rows));
-          this.setState({ type: rows.item(0).catheterType });
+          const catheterType = rows.length > 0 ? catheterType : undefined
+          this.setState({ type: catheterType });
         }
       );
     });

@@ -1,24 +1,68 @@
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import * as SQLite from "expo-sqlite";
+import * as MailComposer from "expo-mail-composer";
 import React, { Component } from "react";
 import {
   ActivityIndicator,
   Dimensions,
   Image,
-  Share,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Alert
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+
 let width = Dimensions.get("window").width;
+
+const db = SQLite.openDatabase("db.db");
 
 export default class Images extends Component {
   state = {
     image: null,
-    uploading: false
+    uploading: false,
+    shareImageAlertVisible: false
   };
+
+  setShareImageAlertVisible = (visible) => {
+    this.setState({ shareImageAlertVisible: visible });
+  }
+
+  async sendEmailToDoctor () {
+    db.transaction(tx => {
+      tx.executeSql(
+        "SELECT email from Doctor1 order by id asc limit 1",
+        [], 
+        (tx, results) => {
+          const isDoctorContact = true
+          const email = results.rows.length > 0 ? results.rows.item(0).email : undefined
+          this.sendEmailAsync(email, isDoctorContact);
+        },
+        (tx, error) => {
+          console.log(error);
+        }
+      );
+    })
+  }
+
+  async sendEmailToCarer () {
+    db.transaction(tx => {
+      tx.executeSql(
+        "SELECT email from carerDetails order by id asc limit 1",
+        [], 
+        (tx, results) => {
+          const isDoctorContact = false
+          const email = results.rows.length > 0 ? results.rows.item(0).email : undefined
+          this.sendEmailAsync(email, isDoctorContact);
+        },
+        (tx, error) => {
+          console.log(error);
+        }
+      );
+    })
+  }
 
   render() {
     let { image } = this.state;
@@ -26,7 +70,7 @@ export default class Images extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Take or choose a picture to send to your practitioner.
+          Take or choose a picture to send to your Contacts.
         </Text>
 
         <TouchableOpacity
@@ -75,7 +119,7 @@ export default class Images extends Component {
   };
 
   _maybeRenderImage = () => {
-    let { image } = this.state;
+    let { image, shareImageAlertVisible } = this.state;
 
     if (!image) {
       return;
@@ -88,7 +132,7 @@ export default class Images extends Component {
         </View>
 
         <TouchableOpacity
-          onPress={this._share}
+          onPress={this.openShareImageAlert}
           style={{
             borderWidth: 1,
             borderColor: "black",
@@ -106,14 +150,64 @@ export default class Images extends Component {
             Share{" "}
           </Text>
         </TouchableOpacity>
+        {shareImageAlertVisible === true &&
+          Alert.alert(
+            "Share Photo",
+            "Please select who you would like to share the photo with.",
+            [
+              {
+                text: "Doctor",
+                onPress: () => {
+                  this.sendEmailToDoctor();
+                }
+              },
+              {
+                text: "Carer",
+                onPress: () => {
+                  this.sendEmailToCarer();
+                }
+              },
+              {
+                text: "Cancel",
+                onPress: () => {
+                  this.closeShareImageAlert()
+                },
+              }
+            ],
+            { cancelable: true }
+          )
+        }
       </ScrollView>
     );
   };
 
-  _share = () => {
-    Share.share({
-      title: "Photo",
-      url: this.state.image
+  openShareImageAlert = () => {
+    this.setShareImageAlertVisible(true)
+  };
+
+  closeShareImageAlert = () => {
+    this.setShareImageAlertVisible(false)
+  };
+
+
+  sendEmailAsync = async(email, isDoctor) => {
+    this.closeShareImageAlert();
+    if (email === undefined || email === null || email === "") {
+      Alert.alert("No Email Address Configured", `Please enter an email address for the ${isDoctor === true ? 'Doctor' : 'Carer'} contact in the Contacts menu.`);
+      return;
+    }
+
+    const isEmailClientSupportedResult = await MailComposer.isAvailableAsync();
+    if (isEmailClientSupportedResult === false) {
+      Alert.alert("Email client not set up", "Please set up your email client on your phone before using this feature.");
+      return;
+    }
+
+    MailComposer.composeAsync({
+      recipients: [email],
+      subject: "Image Share",
+      body: `Hi there, please find image attached.`,
+      attachments: [this.state.image]
     });
   };
 
@@ -177,11 +271,9 @@ export default class Images extends Component {
       body: data
     })
       .then(response => {
-        console.log("succ ");
         console.log(response);
       })
       .catch(err => {
-        console.log("err ");
         console.log(err);
       });
   }

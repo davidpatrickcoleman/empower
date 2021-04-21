@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   Keyboard,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   TextInput,
@@ -14,15 +15,12 @@ const db = SQLite.openDatabase("db.db");
 export default ({ navigation }) => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const [isFirstTime, setIsFirstTime] = useState();
 
   React.useEffect(() => {
     db.transaction(tx => {
-      tx.executeSql(
-        "create table if not exists carerDetails (id integer primary key not null, name text, number text);"
-      );
-
       tx.executeSql(
         "SELECT COUNT(*) as count FROM carerDetails",
         [],
@@ -30,11 +28,9 @@ export default ({ navigation }) => {
          
           let count = null; //creating empty array to store the rows of the sql table data
 
-          console.log(results.rows);
           count = results.rows.item(0).count;
-          console.log("HEY" + count);
           setIsFirstTime(count);
-          console.log(count);
+
           if (count >= 1) {
             tx.executeSql(
               "Select * from carerDetails order by id asc limit 1",
@@ -42,6 +38,7 @@ export default ({ navigation }) => {
               (_, { rows }) => {
                 setNumber(rows.item(0).number);
                 setName(rows.item(0).name);
+                setEmail(rows.item(0).email);
               }
             );
           }
@@ -54,32 +51,19 @@ export default ({ navigation }) => {
   }, []);
 
   const add = () => {
-    // is text empty?
-    console.log("name is" + name);
-    console.log("number is" + number);
-
-    if (name === null || name === "") {
-      console.log("Name is empty");
-    }
-    if (number === null || number === "") {
-      console.log("number is empty");
-    }
     db.transaction(
       tx => {
         tx.executeSql(
-          "insert into carerDetails (name, number) values (?, ?)",
-          [name, number],
+          "insert into carerDetails (name, number, email) values (?, ?, ?)",
+          [name, number, email],
           (_, { rows }) => {
-            console.log(rows._array);
+            console.log(JSON.stringify(rows._array));
           },
           (t, error) => {
             console.log(error);
           }
         );
         Alert.alert("Carer contact details successfully added ");
-        tx.executeSql("select * from carerDetails", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
       },
 
       forceUpdate
@@ -87,33 +71,19 @@ export default ({ navigation }) => {
     Keyboard.dismiss();
   };
   const update = () => {
-    // is text empty?
-    console.log("name is" + name);
-    console.log("number is" + number);
-
-    if (name === null || name === "") {
-      console.log("Name is empty");
-    }
-    if (number === null || number === "") {
-      console.log("number is empty");
-    }
     db.transaction(
       tx => {
         tx.executeSql(
-          "UPDATE carerDetails SET name = (?), email = (?) WHERE id = (?)",
-          [name, number, 1],
+          "UPDATE carerDetails SET name = (?), number = (?), email = (?) WHERE id = (?)",
+          [name, number, email, 1],
           (_, { rows }) => {
-            console.log(rows._array);
+            console.log(JSON.stringify(rows._array));
           },
           (t, error) => {
             console.log(error);
           }
         );
         Alert.alert("Carer contact details successfully updated ");
-
-        tx.executeSql("select * from carerDetails", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
       },
 
       forceUpdate
@@ -133,7 +103,7 @@ export default ({ navigation }) => {
     Keyboard.dismiss();
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
       <View style={styles.box}>
         <Text style={{ fontSize: 24 }}>Enter Carer's Name:</Text>
         <TextInput
@@ -150,13 +120,23 @@ export default ({ navigation }) => {
           onChangeText={number => setNumber(number)}
         />
 
+        <Text style={{ fontSize: 24 }}>Enter Carer's Email:</Text>
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          style={styles.input}
+          placeholder="Enter Carer's Email"
+          value={email}
+          onChangeText={email => setEmail(email)}
+        />
+
         {isFirstTime === 0 ? (
           <Button title="OK" onPress={add} />
         ) : (
           <Button title="Update" onPress={update} />
         )}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 function useForceUpdate() {

@@ -30,7 +30,7 @@ export const FrequentlyAskedQuestions = {
       id: 5,
       question: "How will I know if my catheter is infected?",
       answer:
-        "You should contact your doctor immediately if you believe your catheter is infected. You can use the X function to take a picture of the site and send it to your clinician. Pain, redness, warmth to touch, swelling, or fluid from around the catheter site, or a fever, may indicate your catheter is infected. Some discomfort and redness after insertion is expected but should not persist or worsen."
+        "You should contact your doctor immediately if you believe your catheter is infected. You can use the Photo function to take a picture of the site and send it to your clinician. Pain, redness, warmth to touch, swelling, or fluid from around the catheter site, or a fever, may indicate your catheter is infected. Some discomfort and redness after insertion is expected but should not persist or worsen."
     },
     {
       id: 6,

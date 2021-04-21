@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import React, { useState } from "react";
-import { Alert, Button, Keyboard, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Button, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 
@@ -14,10 +14,6 @@ export default ({ navigation }) => {
   React.useEffect(() => {
     db.transaction(tx => {
       tx.executeSql(
-        "create table if not exists doctor1 (id integer primary key not null, name text, email text);"
-      );
-
-      tx.executeSql(
         "SELECT COUNT(*) as count FROM doctor1",
         [],
         (tx, results) => {
@@ -26,9 +22,7 @@ export default ({ navigation }) => {
 
           console.log(results.rows);
           count = results.rows.item(0).count;
-          console.log("HEY" + count);
           setIsFirstTime(count);
-          console.log(count);
           if (count >= 1) {
             tx.executeSql(
               "Select * from doctor1 order by id asc limit 1",
@@ -48,23 +42,13 @@ export default ({ navigation }) => {
   }, []);
 
   const add = () => {
-    // is text empty?
-    console.log("name is" + name);
-    console.log("email is" + email);
-
-    if (name === null || name === "") {
-      console.log("Name is empty");
-    }
-    if (email === null || email === "") {
-      console.log("email is empty");
-    }
     db.transaction(
       tx => {
         tx.executeSql(
           "insert into doctor1 (name, email) values (?, ?)",
           [name, email],
           (_, { rows }) => {
-            console.log(rows._array);
+            console.log(JSON.stringify(rows._array));
           },
           (t, error) => {
             console.log(error);
@@ -82,23 +66,13 @@ export default ({ navigation }) => {
     Keyboard.dismiss();
   };
   const update = () => {
-    // is text empty?
-    console.log("name is" + name);
-    console.log("email is" + email);
-
-    if (name === null || name === "") {
-      console.log("Name is empty");
-    }
-    if (email === null || email === "") {
-      console.log("email is empty");
-    }
     db.transaction(
       tx => {
         tx.executeSql(
           "UPDATE doctor1 SET name = (?), email = (?) WHERE id = (?)",
           [name, email, 1],
           (_, { rows }) => {
-            console.log(rows._array);
+            console.log(JSON.stringify(rows._array));
           },
           (t, error) => {
             console.log(error);
@@ -128,7 +102,7 @@ export default ({ navigation }) => {
     Keyboard.dismiss();
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}  style={styles.container}>
       <View style={styles.box}>
         <Text style={{ fontSize: 24 }}>Enter Doctor's name:</Text>
         <TextInput
@@ -139,8 +113,10 @@ export default ({ navigation }) => {
         />
         <Text style={{ fontSize: 24 }}>Enter Doctor's email:</Text>
         <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
           style={styles.input}
-          placeholder="Enter Doctor's name"
+          placeholder="Enter Doctor's email"
           value={email}
           onChangeText={email => setEmail(email)}
         />
@@ -151,7 +127,7 @@ export default ({ navigation }) => {
           <Button title="Update" onPress={update} />
         )}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 function useForceUpdate() {

@@ -28,10 +28,11 @@ import ImageShare from "./Screens/ImageShare";
 const Stack = createStackNavigator();
 const DrainStack = createStackNavigator();
 <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>;
+
 function HomeStackScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Drain1" component={Drain1} />
       <Stack.Screen name="Drain2" component={Drain2} />
       <Stack.Screen name="Drain3" component={Drain3} />
@@ -39,7 +40,7 @@ function HomeStackScreen() {
       <Stack.Screen name="Drain5" component={Drain5} />
 
       <Stack.Screen name="ImageShare" component={ImageShare} />
-      <Stack.Screen name="Image" component={Image} />
+      <Stack.Screen name="Image" component={Image} options={{ title: 'Photo' }} />
 
       <Stack.Screen name="FAQ" component={Questions} />
       <Stack.Screen name="Question1" component={Question1} />
