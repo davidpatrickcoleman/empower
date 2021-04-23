@@ -13,12 +13,12 @@ import RadioForm from "react-native-simple-radio-button";
 const db = SQLite.openDatabase("db.db");
 
 const destinations = [
-  { img: require("..//..//..//five.png") },
-  { img: require("..//..//..//four.png") },
-  { img: require("..//..//..//three.png") },
-  { img: require("..//..//..//two.png") },
-  { img: require("..//..//..//one.png") },
-  { img: require("..//..//..//zero.png") }
+  { id: 1, img: require("..//..//..//five.png") },
+  { id: 2, img: require("..//..//..//four.png") },
+  { id: 3, img: require("..//..//..//three.png") },
+  { id: 4, img: require("..//..//..//two.png") },
+  { id: 5, img: require("..//..//..//one.png") },
+  { id: 6, img: require("..//..//..//zero.png") }
 ];
 
 const params = [

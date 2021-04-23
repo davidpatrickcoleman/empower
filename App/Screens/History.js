@@ -1,6 +1,7 @@
 import * as MailComposer from "expo-mail-composer";
 import * as SQLite from "expo-sqlite";
 import React, { useState } from "react";
+import moment from 'moment';
 import { Alert, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 import { Button, Card } from "react-native-elements";
 import { jsonToCSV } from "react-papaparse";
@@ -152,7 +153,7 @@ export default ({ navigation }) => {
         {elements &&
           elements.map(item => (
             <Card containerStyle={styles.card} key={item.id}>
-              <Card.Title>Timestamp: {item.timestamp}</Card.Title>
+              <Card.Title>Timestamp: {moment(moment.utc(item.timestamp).local()).format('YYYY-MM-DD HH:mm')}</Card.Title>
               <Card.Divider />
               <HistoryItem
                 chestPainB={item.chestPainB}
@@ -209,7 +210,7 @@ const formatDrainResultsIntoHTML = (drainageInfoItems) => {
     const drainageInfo = drainageInfoItems[i]
     tableBodyHtml += `
       <tr>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.timestamp.toLocaleString([], {timeStyle: 'short'})}</td>
+        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm')}</td>
         <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.drainAmount}</td>
         <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.chestPainB} / 5</td>
         <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.chestPainA)} / 5</td>

@@ -74,19 +74,13 @@ export default props => (
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "Home") {
-            iconName = focused
-              ? "ios-information-circle"
-              : "ios-information-circle-outline";
-            size = focused ? 40 : 40;
+            iconName = "ios-home";
           } else if (route.name === "Drain") {
-            iconName = focused ? "ios-list-box" : "ios-list";
-            size = focused ? 40 : 40;
+            iconName = "ios-water";
           } else if (route.name === "Contacts") {
-            iconName = focused ? "ios-contact" : "ios-contact";
-            size = focused ? 40 : 40;
+            iconName = "ios-contact";
           }
-
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={40} color={color} />;
         }
       })}
       tabBarOptions={{
