@@ -146,22 +146,7 @@ class HomeScreen extends React.Component {
         </Modal>
         <View style={styles.grid1}>
           <HomeScreenButton
-            navigationAction={value => {
-              Alert.alert("Are you sure you want to drain?", "", [
-                {
-                  text: "Yes drain now",
-                  onPress: () => {
-                    this.props.navigation.navigate("Drain1");
-                    this.add();
-                  }
-                },
-                {
-                  text: "Cancel",
-
-                  style: "cancel"
-                }
-              ]);
-            }}
+            navigationAction={() => this.props.navigation.navigate("Drain1")}
             name={"Ready to Drain"}
             style={{
               backgroundColor: "#3F681C",
@@ -218,21 +203,7 @@ class HomeScreen extends React.Component {
 
         <View style={styles.grid1}>
           <HomeScreenButton
-            navigationAction={value => {
-              Alert.alert("Are you sure you want to drain?", "", [
-                {
-                  text: "Yes drain now",
-                  onPress: () => {
-                    this.props.navigation.navigate("Drain1");
-                    this.add();
-                  }
-                },
-                {
-                  text: "Cancel",
-                  style: "cancel"
-                }
-              ]);
-            }}
+            navigationAction={() => this.props.navigation.navigate("Drain1")}
             name={"Ready to Drain"}
             style={{
               backgroundColor: "#375E97",

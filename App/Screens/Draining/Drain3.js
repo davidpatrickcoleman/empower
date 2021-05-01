@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import React, { useState } from "react";
-import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
 const height = Dimensions.get("window").height;
@@ -54,9 +54,8 @@ export default ({ navigation }) => {
   const [selectedValue, setSelectedValue] = useState();
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const placeholder = {
-    label: "Select a drainage amount...",
-    value: null,
-    color: "#9EA0A4"
+    label: "Select drainage amount...",
+    value: null
   };
   let ide = 0;
   React.useEffect(() => {
@@ -66,7 +65,6 @@ export default ({ navigation }) => {
         [],
         (_, { rows }) => {
           ide = rows.item(0).id;
-          console.log("WHOOO" + ide);
         }
       );
     });
@@ -83,6 +81,7 @@ export default ({ navigation }) => {
         [text, ide],
         (_, { rows }) => {
           console.log(rows._array);
+          setSelectedValue(text);
         },
         (t, error) => {
           console.log(error);
@@ -103,6 +102,15 @@ export default ({ navigation }) => {
 
     console.log(selectedValue);
   };
+
+  const handleNextButton = () => {
+    if (selectedValue === undefined || selectedValue === null) {
+      Alert.alert("Please select a drainage amount.");
+    } else {
+      navigation.navigate("Drain4");
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 2 }}>
@@ -146,7 +154,7 @@ export default ({ navigation }) => {
 
         <Button
           title="Next Question"
-          onPress={() => navigation.navigate("Drain4")}
+          onPress={() => handleNextButton()}
         >
           {" "}
         </Button>

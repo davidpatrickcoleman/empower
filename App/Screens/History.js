@@ -210,12 +210,12 @@ const formatDrainResultsIntoHTML = (drainageInfoItems) => {
     const drainageInfo = drainageInfoItems[i]
     tableBodyHtml += `
       <tr>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm')}</td>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.drainAmount}</td>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.chestPainB} / 5</td>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.chestPainA)} / 5</td>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessB)} / 5</td>
-        <td style="border: 1px solid black;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessA)} / 5</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm')}</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.drainAmount}</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.chestPainB} / 5</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.chestPainA)} / 5</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessB)} / 5</td>
+        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessA)} / 5</td>
       </tr>
     `
   }
@@ -225,14 +225,15 @@ const formatDrainResultsIntoHTML = (drainageInfoItems) => {
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     </head>
     <body>
+      <p>Hi, please see below my drainage volumes and symptom scores.</p><br />
       <table style="border-collapse: collapse;font-family: arial, sans-serif; width: 90%">
-        <tr style="border: 1px solid black;">
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Time</th>
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Drain</th>
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Breathless Before</th>
-          <th style="background-color: black;color: white;font-size: 10px; padding:8px;">Breathless After</th>
+        <tr style="border: 1px solid #3366ff;">
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Time</th>
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Drain</th>
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness Before</th>
+          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness After</th>
         </tr>
         ${tableBodyHtml}
       </table>

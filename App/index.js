@@ -33,11 +33,11 @@ function HomeStackScreen() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Drain1" component={Drain1} />
-      <Stack.Screen name="Drain2" component={Drain2} />
-      <Stack.Screen name="Drain3" component={Drain3} />
-      <Stack.Screen name="Drain4" component={Drain4} />
-      <Stack.Screen name="Drain5" component={Drain5} />
+      <Stack.Screen options={{ title: 'Chest Pain Before Drain' }} name="Drain1" component={Drain1} />
+      <Stack.Screen options={{ title: 'Breathing Before Drain' }} name="Drain2" component={Drain2} />
+      <Stack.Screen options={{ title: 'Drain Volume' }} name="Drain3" component={Drain3} />
+      <Stack.Screen options={{ title: 'Chest Pain After Drain' }} name="Drain4" component={Drain4} />
+      <Stack.Screen options={{ title: 'Breathing After Drain' }} name="Drain5" component={Drain5} />
 
       <Stack.Screen name="ImageShare" component={ImageShare} />
       <Stack.Screen name="Image" component={Image} options={{ title: 'Photo' }} />

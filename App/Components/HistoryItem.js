@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 export const HistoryItem = props => (
   <View>
     <Text style={{ fontSize: 20 }}>
-      Chest before draining: {props.chestPainB}
+      Chest before draining: {props.chestPainB ? props.chestPainB.toFixed(1): props.chestPainB}
     </Text>
     <Text style={{ fontSize: 20 }}>
       Chest after draining: {props.chestPainA}
