@@ -1,14 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export const HomeScreenButton = props => (
-  <TouchableOpacity
+export const HomeScreenButton = props =>  {
+  return ( <TouchableOpacity
     style={[styles.loginScreenButton, props.style]}
     onPress={props.navigationAction}
   >
-    <Text style={styles.loginText}>{props.name}</Text>
+    <Image
+      key={props.name}
+      style={{width: '90%', height: 100}}
+      resizeMode={'contain'}
+      source={props.source}
+    />
   </TouchableOpacity>
-);
+)};
 
 // Defining prop types for this component
 

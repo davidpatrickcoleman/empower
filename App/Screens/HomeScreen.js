@@ -147,7 +147,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("Drain1")}
-            name={"Ready to Drain"}
+            name="ready_to_drain"
+            source={require(`..//..//images//ready-to-drain.png`)}
             style={{
               backgroundColor: "#3F681C",
               width: "100%",
@@ -159,7 +160,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("Image")}
-            name={"Photo"}
+            name="photo"
+            source={require(`..//..//images//photo.png`)}
             style={{
               backgroundColor: "#375E97",
               marginLeft: 10,
@@ -169,7 +171,8 @@ class HomeScreen extends React.Component {
           />
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("History")}
-            name={"History"}
+            name="history"
+            source={require(`..//..//images//history.png`)}
             style={{
               backgroundColor: "#FFBB00",
               marginLeft: 10,
@@ -181,7 +184,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("FAQ")}
-            name={"Help"}
+            name="help"
+            source={require(`..//..//images//help.png`)}
             style={{
               backgroundColor: "#FB6542",
               width: "100%",
@@ -204,7 +208,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("Drain1")}
-            name={"Ready to Drain"}
+            name={"ready_to_drain"}
+            source={require(`..//..//images//ready-to-drain.png`)}
             style={{
               backgroundColor: "#375E97",
               width: "100%",
@@ -216,7 +221,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("Image")}
-            name={"Photo"}
+            name="photo"
+            source={require(`..//..//images//photo.png`)}
             style={{
               backgroundColor: "#FFBB00",
               marginLeft: 10,
@@ -226,7 +232,8 @@ class HomeScreen extends React.Component {
           />
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("History")}
-            name={"History"}
+            name={"history"}
+            source={require(`..//..//images//history.png`)}
             style={{
               backgroundColor: "#3F681C",
               marginLeft: 10,
@@ -238,7 +245,8 @@ class HomeScreen extends React.Component {
         <View style={styles.grid1}>
           <HomeScreenButton
             navigationAction={() => this.props.navigation.navigate("FAQ")}
-            name={"Help"}
+            name={"help"}
+            source={require(`..//..//images//help.png`)}
             style={{
               backgroundColor: "#FB6542",
               width: "100%",

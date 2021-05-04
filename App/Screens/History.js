@@ -46,15 +46,16 @@ export default ({ navigation }) => {
         (tx, results) => {
           // sql query to get all table data and storing it in 'results' variable
           console.log(results);
-          setEmail(results.rows.item(0).email);
-          console.log(email);
+          const emailFromDb = results.rows.length > 0 ? results.rows.item(0).email : undefined
+          setEmail(emailFromDb);
+          console.log(emailFromDb);
         },
         (t, error) => {
           console.log(error);
         }
       );
       tx.executeSql(
-        "SELECT * FROM drainData where timestamp > (SELECT DATETIME('now', '-7 day')) order by timestamp desc",
+        "SELECT * FROM drainData order by timestamp desc",
         [],
         (tx, results) => {
           // sql query to get all table data and storing it in 'results' variable
@@ -220,26 +221,37 @@ const formatDrainResultsIntoHTML = (drainageInfoItems) => {
     `
   }
 
-  return `<html>
+  return numResults > 0 ? 
+    `<html>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      </head>
+      <body>
+        <p>Hi, please see below my drainage volumes and symptom scores.</p><br />
+        <table style="border-collapse: collapse;font-family: arial, sans-serif; width: 90%">
+          <tr style="border: 1px solid #3366ff;">
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Time</th>
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Drain</th>
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness Before</th>
+            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness After</th>
+          </tr>
+          ${tableBodyHtml}
+        </table>
+      </body>
+    </html>
+    `
+    :
+    `<html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     </head>
     <body>
-      <p>Hi, please see below my drainage volumes and symptom scores.</p><br />
-      <table style="border-collapse: collapse;font-family: arial, sans-serif; width: 90%">
-        <tr style="border: 1px solid #3366ff;">
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Time</th>
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Drain</th>
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness Before</th>
-          <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness After</th>
-        </tr>
-        ${tableBodyHtml}
-      </table>
+      <p>Hi, there are no drainage volumes and symptom scores recorded.</p><br />
     </body>
-  </html>
-  `
+    </html>`
+    
 }
 
 const styles = StyleSheet.create({
