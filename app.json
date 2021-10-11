@@ -3,7 +3,7 @@
     "name": "Empower",
     "slug": "empower",
     "privacy": "unlisted",
-    "version": "1.0.7",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./logoEmpower2.png",
 
@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.symphysismedical.empower",
-      "buildNumber": "12"
+      "buildNumber": "14"
 
     },
     "web": {

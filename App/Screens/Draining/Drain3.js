@@ -57,8 +57,15 @@ export default ({ navigation }) => {
     label: "Select drainage amount...",
     value: null
   };
-  let ide = 0;
-  React.useEffect(() => {
+  
+  const add = text => {
+    // is text empty?
+    if (text === null || text === "") {
+      console.log("text is" + text);
+    }
+
+    // Get the latest row entry from drain data table
+    let ide = 0;
     db.transaction(tx => {
       tx.executeSql(
         "select id from drainData order by id desc limit 1",
@@ -68,13 +75,7 @@ export default ({ navigation }) => {
         }
       );
     });
-  }, []);
-  const add = text => {
-    // is text empty?
-    console.log("text is" + text);
-    if (text === null || text === "") {
-      console.log("text is" + text);
-    }
+    
     db.transaction(tx => {
       tx.executeSql(
         "UPDATE drainData SET drainAmount = (?) WHERE id = (?)",
