@@ -3,10 +3,9 @@
     "name": "Empower",
     "slug": "empower",
     "privacy": "unlisted",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "orientation": "portrait",
     "icon": "./logoEmpower2.png",
-
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -16,8 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.symphysismedical.empower",
-      "buildNumber": "15"
-
+      "buildNumber": "16"
+    },
+    "android": {
+      "versionCode": 1,
+      "package": "com.symphysismedical.empower"
     },
     "web": {
       "favicon": "./assets/favicon.png"

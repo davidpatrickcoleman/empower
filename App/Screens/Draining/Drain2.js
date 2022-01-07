@@ -4,6 +4,7 @@ import {
   Alert,
   Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View
@@ -75,7 +76,7 @@ export default ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1 }}>
+      <ScrollView>
         <Text style={styles.headings}>How is your breathing? </Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View style={{ marginTop: 5, marginRight: 10 }}>
@@ -127,7 +128,7 @@ export default ({ navigation }) => {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
