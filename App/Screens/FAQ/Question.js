@@ -1,28 +1,31 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import { Card } from "react-native-elements";
 import { FrequentlyAskedQuestions } from "../../Constants/Constants";
 
-export default ({ navigation }) => {
+export default ({ route, navigation }) => {
+  const { frequentlyAsked } = route.params;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ flex: 7 }}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <>
         <Card containerStyle={styles.card}>
           <Card.Title>
             {" "}
             <Text style={styles.question}>
-              {FrequentlyAskedQuestions.rows[0].question}
+              {frequentlyAsked.question}
             </Text>
           </Card.Title>
           <Card.Divider />
 
           <Text style={styles.answer}>
-            {FrequentlyAskedQuestions.rows[0].answer}
+            {frequentlyAsked.answer}
           </Text>
         </Card>
-      </View>
-      <View style={{ flex: "1", alignItems: "center" }}></View>
-    </SafeAreaView>
+          </>
+        </ScrollView>
+      </SafeAreaView>
   );
 };
 

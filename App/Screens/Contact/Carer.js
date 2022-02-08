@@ -4,7 +4,7 @@ import {
   Alert,
   Button,
   Keyboard,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, Platform, ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -25,7 +25,7 @@ export default ({ navigation }) => {
         "SELECT COUNT(*) as count FROM carerDetails",
         [],
         (tx, results) => {
-         
+
           let count = null; //creating empty array to store the rows of the sql table data
 
           count = results.rows.item(0).count;
@@ -104,7 +104,7 @@ export default ({ navigation }) => {
   };
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-      <View style={styles.box}>
+      <ScrollView contentContainerStyle={styles.box}>
         <Text style={{ fontSize: 24 }}>Enter Carer's Name:</Text>
         <TextInput
           style={styles.input}
@@ -135,7 +135,7 @@ export default ({ navigation }) => {
         ) : (
           <Button title="Update" onPress={update} />
         )}
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -148,10 +148,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center"
   },
   box: {
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
     width: "100%",

@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     //backgroundColor: 'white'
   },
   question: {
-    backgroundColor: "#fff",
     elevation: 2, // Android
     justifyContent: "center",
     alignItems: "center",

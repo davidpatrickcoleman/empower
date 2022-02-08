@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import {
   Alert,
   Image,
-  SafeAreaView,
+  SafeAreaView, ScrollView,
   StyleSheet,
   Text,
   View
 } from "react-native";
 import RadioForm from "react-native-simple-radio-button";
 import { EmoitconImages } from "../..//Constants/Constants";
+import {drainStyles} from "../../Constants/Constants";
 
 const db = SQLite.openDatabase("db.db");
 const destinations = [
@@ -74,33 +75,29 @@ export default ({ navigation }) => {
     );
   };
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={{ flex: 1 }}>
-        <Text style={styles.headings}>
+    <SafeAreaView style={drainStyles.container}>
+      <ScrollView>
+        <Text style={drainStyles.headings}>
           How is your chest feeling after draining??{" "}
         </Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
-          <View style={{ marginTop: 5, marginRight: 10 }}>
+        <View style={drainStyles.mainView}>
+          <View style={drainStyles.imageView}>
             {EmoitconImages &&
               EmoitconImages.map(dest => (
                 <Image
                   key={dest.id}
-                  style={{ height: 70, width: 70, marginTop: 5 }}
+                  style={drainStyles.imageStyle}
                   source={dest.img}
                   resizeMode="contain"
                 />
               ))}
           </View>
-          <View>
+          <View style={drainStyles.choiceView}>
             <RadioForm
-              style={styles.buttons}
+              style={drainStyles.buttons}
               radio_props={params}
               initial={0}
-              labelStyle={{
-                fontSize: 20,
-                paddingTop: 10,
-                justifyContent: "flex-end"
-              }}
+              labelStyle={drainStyles.buttonLabels}
               buttonSize={60}
               animation={true}
               onPress={value => {
@@ -129,7 +126,7 @@ export default ({ navigation }) => {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -138,30 +135,3 @@ function useForceUpdate() {
   const [value, setValue] = useState(0);
   return [() => setValue(value + 1), value];
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    flex: 1,
-    justifyContent: "center",
-
-    alignItems: "center"
-  },
-
-  buttons: {
-    marginTop: 10,
-    marginLeft: 20,
-
-    alignItems: "flex-start"
-  },
-
-  headings: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingTop: 20,
-    paddingBottom: 20,
-    margin: 5,
-
-    textAlign: "center"
-  }
-});
