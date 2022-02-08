@@ -34,7 +34,7 @@ export default class Images extends Component {
     db.transaction(tx => {
       tx.executeSql(
         "SELECT email from Doctor1 order by id asc limit 1",
-        [], 
+        [],
         (tx, results) => {
           const isDoctorContact = true
           const email = results.rows.length > 0 ? results.rows.item(0).email : undefined
@@ -51,7 +51,7 @@ export default class Images extends Component {
     db.transaction(tx => {
       tx.executeSql(
         "SELECT email from carerDetails order by id asc limit 1",
-        [], 
+        [],
         (tx, results) => {
           const isDoctorContact = false
           const email = results.rows.length > 0 ? results.rows.item(0).email : undefined
@@ -68,7 +68,7 @@ export default class Images extends Component {
     let { image } = this.state;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>
           Take or choose a picture to send to your Contacts.
         </Text>
@@ -104,7 +104,7 @@ export default class Images extends Component {
 
         {this._maybeRenderImage()}
         {this._maybeRenderUploadingOverlay()}
-      </View>
+      </ScrollView>
     );
   }
 
@@ -126,7 +126,7 @@ export default class Images extends Component {
     }
 
     return (
-      <ScrollView style={styles.maybeRenderContainer}>
+      <View style={styles.maybeRenderContainer}>
         <View style={styles.maybeRenderImageContainer}>
           <Image source={{ uri: image }} style={styles.maybeRenderImage} />
         </View>
@@ -177,7 +177,7 @@ export default class Images extends Component {
             { cancelable: true }
           )
         }
-      </ScrollView>
+      </View>
     );
   };
 
@@ -281,9 +281,9 @@ export default class Images extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "flex-start",
     alignItems: "center",
-    flex: 1,
-
+    flexGrow: 1,
     backgroundColor: "white"
   },
   title: {

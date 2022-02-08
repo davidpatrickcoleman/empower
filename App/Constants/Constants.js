@@ -1,3 +1,5 @@
+import {StyleSheet} from "react-native";
+
 export const FrequentlyAskedQuestions = {
   rows: [
     {
@@ -48,3 +50,48 @@ export const EmoitconImages = [
   { id: 5, img: require("..//..//one.png") },
   { id: 6, img: require("..//..//zero.png") }
 ];
+
+
+export const drainStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  mainView: {
+   flexDirection: "row"
+  },
+  imageView: {
+    flex: 1,
+    marginLeft: 10
+  },
+  imageStyle: {
+    height: 70,
+    width: 70,
+    marginTop: 5
+  },
+  choiceView: {
+    flex: 3,
+    justifyContent:  "flex-start"
+  },
+  buttons: {
+    marginTop: 10,
+    alignItems: "flex-start"
+  },
+  buttonLabels: {
+    fontSize: 16,
+    paddingTop: 10
+  },
+
+  headings: {
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingTop: 20,
+    paddingBottom: 20,
+    margin: 5,
+
+    textAlign: "center"
+  }
+});

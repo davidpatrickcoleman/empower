@@ -2,7 +2,7 @@ import * as MailComposer from "expo-mail-composer";
 import * as SQLite from "expo-sqlite";
 import React, { useState } from "react";
 import moment from 'moment';
-import { Alert, SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import {Alert, Platform, SafeAreaView, ScrollView, StyleSheet} from "react-native";
 import { Button, Card } from "react-native-elements";
 import { jsonToCSV } from "react-papaparse";
 import { HistoryItem } from ".//..//Components/HistoryItem";
@@ -80,7 +80,7 @@ export default ({ navigation }) => {
     db.transaction(tx => {
       tx.executeSql(
         "SELECT email from Doctor1 order by id asc limit 1",
-        [], 
+        [],
         (tx, results) => {
           const isDoctorContact = true
           const emailFromDb = results.rows.length > 0 ? results.rows.item(0).email : undefined
@@ -97,7 +97,7 @@ export default ({ navigation }) => {
     db.transaction(tx => {
       tx.executeSql(
         "SELECT email from carerDetails order by id asc limit 1",
-        [], 
+        [],
         (tx, results) => {
           const isDoctorContact = false
           const emailFromDb = results.rows.length > 0 ? results.rows.item(0).email : undefined
@@ -127,7 +127,7 @@ export default ({ navigation }) => {
     await MailComposer.composeAsync({
       recipients: [emailContact],
       subject: "Patient Information",
-      body: formatDrainResultsIntoHTML(emailItems),
+      body: formatDrainResults(emailItems),
       isHtml: true
     });
 
@@ -165,7 +165,7 @@ export default ({ navigation }) => {
               />
             </Card>
           ))}
-      
+
       {shareInfoAlertVisible === true &&
           Alert.alert(
             "Share Drain Information",
@@ -203,55 +203,75 @@ const useForceUpdate = () => {
   return [() => setValue(value + 1), value];
 }
 
-const formatDrainResultsIntoHTML = (drainageInfoItems) => {
-  let tableBodyHtml=''
+const formatDrainResults = (drainageInfoItems) => {
+  let body=''
   const numResults = drainageInfoItems.length
+  const isAndroid = (Platform.OS === 'android')
+  let newLine  = `<br>`;
 
   for (let i = 0; i < numResults; i = i + 1) {
     const drainageInfo = drainageInfoItems[i]
-    tableBodyHtml += `
-      <tr>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm:ss')}</td>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.drainAmount}</td>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.chestPainB} / 5</td>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.chestPainA)} / 5</td>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessB)} / 5</td>
-        <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessA)} / 5</td>
-      </tr>
-    `
+        if (isAndroid === false)   {
+            body += `
+          <tr>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm:ss')}</td>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.drainAmount}</td>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${drainageInfo.chestPainB} / 5</td>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.chestPainA)} / 5</td>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessB)} / 5</td>
+            <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${Math.floor(drainageInfo.breathlessnessA)} / 5</td>
+          </tr>
+            `
+        } else {
+            body += `
+          Time: ${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm:ss')}${newLine}
+          Drain: ${drainageInfo.drainAmount}${newLine}
+          Chest Pain Before: ${drainageInfo.chestPainB} / 5${newLine}
+          Chest Pain After: ${drainageInfo.chestPainA} / 5${newLine}
+          Breathlessness Before: ${drainageInfo.breathlessnessA} / 5${newLine}
+          Breathlessness After: ${Math.floor(drainageInfo.breathlessnessB)} / 5${newLine}${newLine}
+        `
+        }
   }
 
-  return numResults > 0 ? 
-    `<html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-      </head>
-      <body>
-        <p>Hi, please see below my drainage volumes and symptom scores.</p><br />
-        <table style="border-collapse: collapse;font-family: arial, sans-serif; width: 90%">
-          <tr style="border: 1px solid #3366ff;">
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Time</th>
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Drain</th>
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness Before</th>
-            <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness After</th>
-          </tr>
-          ${tableBodyHtml}
-        </table>
-      </body>
-    </html>
-    `
+  return numResults > 0 ?
+      (isAndroid === false) ? `<html>
+                  <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+                  </head>
+                  <body>
+                    <p>Hi, please see below my drainage volumes and symptom scores.</p><br />
+                    <table style="border-collapse: collapse;font-family: arial, sans-serif; width: 90%">
+                      <tr style="border: 1px solid #3366ff;">
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Time</th>
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Drain</th>
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain Before</th>
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Chest Pain After</th>
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness Before</th>
+                        <th style="background-color: #3366ff;color: white;font-size: 10px; padding:8px;">Breathlessness After</th>
+                      </tr>
+                      ${body}
+                    </table>
+                  </body>
+                </html>
+                `
+          :
+          `
+          Hi, please see below my drainage volumes and symptom scores.${newLine}${newLine}
+          ${body}
+          `
     :
-    `<html>
-    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    </head>
-    <body>
-      <p>Hi, there are no drainage volumes and symptom scores recorded.</p><br />
-    </body>
-    </html>`
-    
+      (isAndroid === false) ?
+            `<html>
+            <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            </head>
+            <body>
+              <p>Hi, there are no drainage volumes and symptom scores recorded.</p><br />
+            </body>
+            </html>`
+          : 'Hi, there are no drainage volumes and symptom scores recorded'
+
 }
 
 const styles = StyleSheet.create({

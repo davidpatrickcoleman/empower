@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import React, { useState } from "react";
-import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {Alert, Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import { Button } from "react-native-elements";
 import RNPickerSelect from "react-native-picker-select";
 const height = Dimensions.get("window").height;
@@ -15,7 +15,7 @@ const params = [
   { label: "125ml", value: "125ml" },
   { label: "150ml", value: "150ml" },
   { label: "175ml", value: "175ml" },
-  { label: "200ml", value: "200" },
+  { label: "200ml", value: "200ml" },
   { label: "225ml", value: "225ml" },
   { label: "250ml", value: "250ml" },
   { label: "275ml", value: "275ml" },
@@ -57,7 +57,7 @@ export default ({ navigation }) => {
     label: "Select drainage amount...",
     value: null
   };
-  
+
   const add = text => {
     // is text empty?
     if (text === null || text === "") {
@@ -75,7 +75,7 @@ export default ({ navigation }) => {
         }
       );
     });
-    
+
     db.transaction(tx => {
       tx.executeSql(
         "UPDATE drainData SET drainAmount = (?) WHERE id = (?)",
@@ -114,20 +114,20 @@ export default ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 2 }}>
+      <ScrollView>
         <Text style={styles.headings}>How much did you drain? </Text>
         <View
-          style={{ flex: 2, alignItems: "center", justifyContent: "center" }}
-        >
+          style={{ marginBottom : 40 }}>
           <RNPickerSelect
             onValueChange={value => add(value)}
             items={params}
             placeholder={placeholder}
+            useNativeAndroidPickerStyle={false}
             style={{
               placeholder: {
                 color: "black",
                 fontSize: 20,
-                fontWeight: "bold"
+                fontWeight: "bold",
               },
               inputIOS: {
                 fontSize: 25,
@@ -154,12 +154,13 @@ export default ({ navigation }) => {
         </View>
 
         <Button
+            style={styles.buttons}
           title="Next Question"
           onPress={() => handleNextButton()}
         >
           {" "}
         </Button>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -171,19 +172,16 @@ function useForceUpdate() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    flex: 1,
-    justifyContent: "center",
-
-    alignItems: "center"
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    flexGrow: 1,
+    backgroundColor: "white"
   },
 
   buttons: {
-    marginTop: 5,
+    paddingTop: 20,
+    marginTop: 20,
     marginLeft: 20,
-    justifyContent: "flex-start",
-
-    alignItems: "flex-start"
   },
 
   input: {
@@ -193,20 +191,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 18
   },
-  inputBox: {
-    margin: 10,
-    height: 150,
-    borderColor: "black",
-    borderWidth: 1,
-    fontSize: 18
-  },
+
   headings: {
     fontSize: 20,
     fontWeight: "bold",
     paddingTop: 20,
+    paddingBottom: 20,
     margin: 5,
     marginLeft: 20,
-    textAlign: "left"
+    textAlign: "center"
   },
   slider: {
     width: "80%"

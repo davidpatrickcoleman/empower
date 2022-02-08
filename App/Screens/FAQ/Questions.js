@@ -23,51 +23,38 @@ export default ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Button
         buttonStyle={{
-          alignItems: "stretch",
           marginTop: 10,
           fontSize: 20,
-          width: "100%"
+          alignItems: "stretch",
+          textAlignVertical: "center",
+          paddingLeft: 40,
+          paddingRight: 40
         }}
         onPress={() => navigation.navigate("HelpVideos")}
-        title="Instruction Videos         "
+        title="Instruction Videos"
         backgroundColor="#46b4f0"
       ></Button>
       <View style={{ flex: 1, flexDirection: "row" }}>
-        <View style={{ marginLeft: 20 }}>
-          {destinations &&
-            destinations.map(dest => (
-              <Image
-                key={dest.id}
-                style={{ height: 67, width: 67, marginTop: 35 }}
-                source={dest.img}
-                resizeMode="contain"
-              />
-            ))}
-        </View>
-        <View style={{ marginLeft: 10, marginTop: 10 }}>
-          <QuestionButton
-            name={FrequentlyAskedQuestions.rows[0].question}
-            navigationAction={() => navigation.navigate("Question1")}
-          ></QuestionButton>
+        <View style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
           <QuestionButton
             name={FrequentlyAskedQuestions.rows[1].question}
-            navigationAction={() => navigation.navigate("Question2")}
+            navigationAction={() => navigation.navigate("Question", { frequentlyAsked: FrequentlyAskedQuestions.rows[1] })}
           ></QuestionButton>
           <QuestionButton
             name={FrequentlyAskedQuestions.rows[2].question}
-            navigationAction={() => navigation.navigate("Question3")}
+            navigationAction={() => navigation.navigate("Question", { frequentlyAsked: FrequentlyAskedQuestions.rows[2] })}
           ></QuestionButton>
           <QuestionButton
             name={FrequentlyAskedQuestions.rows[3].question}
-            navigationAction={() => navigation.navigate("Question4")}
+            navigationAction={() => navigation.navigate("Question", { frequentlyAsked: FrequentlyAskedQuestions.rows[3] })}
           ></QuestionButton>
           <QuestionButton
             name={FrequentlyAskedQuestions.rows[4].question}
-            navigationAction={() => navigation.navigate("Question5")}
+            navigationAction={() => navigation.navigate("Question", { frequentlyAsked: FrequentlyAskedQuestions.rows[4] })}
           ></QuestionButton>
           <QuestionButton
             name={FrequentlyAskedQuestions.rows[5].question}
-            navigationAction={() => navigation.navigate("Question6")}
+            navigationAction={() => navigation.navigate("Question", { frequentlyAsked: FrequentlyAskedQuestions.rows[5] })}
           ></QuestionButton>
         </View>
       </View>

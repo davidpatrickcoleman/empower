@@ -198,6 +198,7 @@ class HomeScreen extends React.Component {
       <SafeAreaView style={styles.container}>
         <Image
           style={{
+            marginTop: 10,
             resizeMode: "contain",
             flex: 1
           }}
