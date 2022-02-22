@@ -68,7 +68,7 @@ export default props => (
           } else if (route.name === "Drain") {
             iconName = "ios-water";
           } else if (route.name === "Contacts") {
-            iconName = "ios-contact";
+            iconName = "person-circle-outline";
           }
           return <Ionicons name={iconName} size={40} color={color} />;
         }
