@@ -228,8 +228,8 @@ const formatDrainResults = (drainageInfoItems) => {
           Drain: ${drainageInfo.drainAmount}${newLine}
           Chest Pain Before: ${drainageInfo.chestPainB} / 5${newLine}
           Chest Pain After: ${drainageInfo.chestPainA} / 5${newLine}
-          Breathlessness Before: ${drainageInfo.breathlessnessA} / 5${newLine}
-          Breathlessness After: ${Math.floor(drainageInfo.breathlessnessB)} / 5${newLine}${newLine}
+          Breathlessness Before: ${Math.floor(drainageInfo.breathlessnessB)} / 5${newLine}
+          Breathlessness After: ${Math.floor(drainageInfo.breathlessnessA)} / 5${newLine}${newLine}
         `
         }
   }
