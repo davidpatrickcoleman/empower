@@ -2,7 +2,7 @@
 
 ## Android
 
-- To build apk, run the following command: `expo build:android -t apk`
+- `eas build -p android`
 - To run in Emulator, run the following command: `expo build:android`
 
 ## iOS
