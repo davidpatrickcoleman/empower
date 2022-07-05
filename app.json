@@ -18,7 +18,7 @@
       "buildNumber": "20"
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "package": "com.symphysismedical.empower",
       "permissions": ["CAMERA"]
     },

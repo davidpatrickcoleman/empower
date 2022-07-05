@@ -203,7 +203,7 @@ export default class Images extends Component {
       return;
     }
 
-    MailComposer.composeAsync({
+    await MailComposer.composeAsync({
       recipients: [email],
       subject: "Image Share",
       body: `Hi there, please find image attached.`,

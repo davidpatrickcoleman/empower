@@ -124,11 +124,12 @@ export default ({ navigation }) => {
       return;
     }
 
+    var isHtmlFlag = false
     await MailComposer.composeAsync({
       recipients: [emailContact],
       subject: "Patient Information",
-      body: formatDrainResults(emailItems),
-      isHtml: true
+      body: formatDrainResults(emailItems, isHtmlFlag),
+      isHtml: isHtmlFlag
     });
 
     const jsonObject = JSON.stringify(emailItems);
@@ -203,15 +204,14 @@ const useForceUpdate = () => {
   return [() => setValue(value + 1), value];
 }
 
-const formatDrainResults = (drainageInfoItems) => {
+const formatDrainResults = (drainageInfoItems, isHtmlFlag) => {
   let body=''
   const numResults = drainageInfoItems.length
-  const isAndroid = (Platform.OS === 'android')
-  let newLine  = `<br>`;
+  let newLine  = (isHtmlFlag === true) ? `<br>` : '';
 
   for (let i = 0; i < numResults; i = i + 1) {
     const drainageInfo = drainageInfoItems[i]
-        if (isAndroid === false)   {
+        if (isHtmlFlag === true)    {
             body += `
           <tr>
             <td style="border: 1px solid #3366ff;font-size: 10px; padding:8px; text-align: center;">${moment(moment.utc(drainageInfo.timestamp).local()).format('YYYY-MM-DD HH:mm:ss')}</td>
@@ -235,7 +235,7 @@ const formatDrainResults = (drainageInfoItems) => {
   }
 
   return numResults > 0 ?
-      (isAndroid === false) ? `<html>
+      (isHtmlFlag === true) ? `<html>
                   <head>
                     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
                   </head>
@@ -261,7 +261,7 @@ const formatDrainResults = (drainageInfoItems) => {
           ${body}
           `
     :
-      (isAndroid === false) ?
+      (isHtmlFlag === true) ?
             `<html>
             <head>
               <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
